@@ -6,6 +6,7 @@ import java.awt.event.*;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private final Paddle paddle;
+    private Brick[][] bricks;
 
     public GamePanel() {
         setPreferredSize(new Dimension(BrickBreakerGame.WIDTH, BrickBreakerGame.HEIGHT));
@@ -14,15 +15,44 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         addKeyListener(this);
 
         paddle = new Paddle((BrickBreakerGame.WIDTH - Paddle.WIDTH) / 2, BrickBreakerGame.HEIGHT - 2 * Paddle.HEIGHT);
+        initializeBricks();
 
         Timer timer = new Timer(10, this);
         timer.start();
+    }
+
+    private void initializeBricks() {
+        int brickWidth = Brick.WIDTH;
+        int brickHeight = Brick.HEIGHT;
+        int brickGap = 3;
+        int numColumns = BrickBreakerGame.WIDTH / (Brick.WIDTH + brickGap);
+        int numRows = 5;
+        int padding = (BrickBreakerGame.WIDTH - numColumns * (Brick.WIDTH + brickGap)) / 2;
+
+        bricks = new Brick[numRows][numColumns];
+        int brickX = padding;
+        int brickY = 0;
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numColumns; col++) {
+                bricks[row][col] = new Brick(brickX, brickY);
+                brickX += (brickWidth + brickGap);
+            }
+            brickY += (brickHeight + brickGap);
+            brickX = padding;
+        }
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         paddle.draw(g);
+        for (Brick[] row : bricks) {
+            for (Brick brick : row) {
+                if (brick != null) {
+                    brick.draw(g);
+                }
+            }
+        }
     }
 
     @Override
