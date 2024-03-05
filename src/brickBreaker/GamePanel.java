@@ -44,6 +44,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }
     }
 
+    private void handlePaddleCollisions() {
+        Rectangle ballRect = ball.getBounds();
+        Rectangle paddleRect = paddle.getBounds();
+        if (ballRect.intersects(paddleRect)) {
+            ball.reverseDirection();
+        }
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -62,6 +70,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent e) {
         paddle.move();
         ball.move();
+        handlePaddleCollisions();
         repaint();
     }
 

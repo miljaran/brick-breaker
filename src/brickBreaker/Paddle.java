@@ -49,4 +49,8 @@ public class Paddle {
         g.setColor(Color.WHITE);
         g.fillRect(x, y, WIDTH, HEIGHT);
     }
+
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, WIDTH, HEIGHT);
+    }
 }

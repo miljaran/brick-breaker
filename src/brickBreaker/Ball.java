@@ -29,6 +29,15 @@ public class Ball {
 
     public void draw(Graphics g) {
         g.setColor(Color.RED);
-        g.fillOval(x, y, SIZE, SIZE);
+        g.fillRect(x, y, SIZE, SIZE); // TODO: change to fillOval
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, SIZE, SIZE);
+    }
+
+    public void reverseDirection() {
+        xSpeed = -xSpeed;
+        ySpeed = -ySpeed;
     }
 }
