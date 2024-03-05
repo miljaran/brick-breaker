@@ -6,6 +6,7 @@ import java.awt.event.*;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private final Paddle paddle;
+    private final Ball ball;
     private Brick[][] bricks;
 
     public GamePanel() {
@@ -15,6 +16,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         addKeyListener(this);
 
         paddle = new Paddle((BrickBreakerGame.WIDTH - Paddle.WIDTH) / 2, BrickBreakerGame.HEIGHT - 2 * Paddle.HEIGHT);
+        ball = new Ball(BrickBreakerGame.WIDTH / 2, BrickBreakerGame.HEIGHT / 2);
         initializeBricks();
 
         Timer timer = new Timer(10, this);
@@ -27,7 +29,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         int brickGap = 3;
         int numColumns = BrickBreakerGame.WIDTH / (Brick.WIDTH + brickGap);
         int numRows = 5;
-        int padding = (BrickBreakerGame.WIDTH - numColumns * (Brick.WIDTH + brickGap)) / 2;
+        int padding = (BrickBreakerGame.WIDTH - numColumns * (Brick.WIDTH + brickGap) + brickGap) / 2;
 
         bricks = new Brick[numRows][numColumns];
         int brickX = padding;
@@ -46,6 +48,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         paddle.draw(g);
+        ball.draw(g);
         for (Brick[] row : bricks) {
             for (Brick brick : row) {
                 if (brick != null) {
@@ -58,6 +61,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         paddle.move();
+        ball.move();
         repaint();
     }
 
