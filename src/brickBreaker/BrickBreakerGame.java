@@ -11,6 +11,10 @@ public class BrickBreakerGame extends JFrame {
         setSize(WIDTH, HEIGHT);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        GamePanel gamePanel = new GamePanel();
+        add(gamePanel);
+
         setLocationRelativeTo(null);
         setVisible(true);
     }
