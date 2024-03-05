@@ -15,6 +15,7 @@ public class Ball {
         this.ySpeed = -2;
     }
 
+    // TODO: react if the ball is below the paddle
     public void move() {
         x += xSpeed;
         y += ySpeed;
@@ -36,6 +37,7 @@ public class Ball {
         return new Rectangle(x, y, SIZE, SIZE);
     }
 
+    // TODO: improve the logic
     public void reverseDirection() {
         xSpeed = -xSpeed;
         ySpeed = -ySpeed;

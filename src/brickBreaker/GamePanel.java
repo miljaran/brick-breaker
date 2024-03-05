@@ -52,6 +52,22 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }
     }
 
+    private void handleBrickCollisions() {
+        Rectangle ballRect = ball.getBounds();
+        for (int i = 0; i < bricks.length; i++) {
+            for (int j = 0; j < bricks[i].length; j++) {
+                Brick brick = bricks[i][j];
+                if (brick != null) {
+                    Rectangle brickRect = brick.getBounds();
+                    if (ballRect.intersects(brickRect)) {
+                        ball.reverseDirection();
+                        bricks[i][j] = null;
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -66,11 +82,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }
     }
 
+    // TODO: end the game when there are no tiles left or the ball is below the paddle
     @Override
     public void actionPerformed(ActionEvent e) {
         paddle.move();
         ball.move();
         handlePaddleCollisions();
+        handleBrickCollisions();
         repaint();
     }
 

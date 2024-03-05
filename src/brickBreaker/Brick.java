@@ -17,4 +17,8 @@ public class Brick {
         g.setColor(Color.BLUE);
         g.fillRect(x, y, WIDTH, HEIGHT);
     }
+
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, WIDTH, HEIGHT);
+    }
 }
