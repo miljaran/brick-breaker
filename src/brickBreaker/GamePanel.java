@@ -32,7 +32,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         int brickHeight = Brick.HEIGHT;
         int brickGap = 3;
         int numColumns = BrickBreakerGame.WIDTH / (Brick.WIDTH + brickGap);
-        int numRows = 5;
+        int numRows = (BrickBreakerGame.HEIGHT / 3) / (Brick.HEIGHT + brickGap);
+        // int numRows = 5;
         int numTotal = numColumns * numRows;
         int padding = (BrickBreakerGame.WIDTH - numColumns * (Brick.WIDTH + brickGap) + brickGap) / 2;
 
