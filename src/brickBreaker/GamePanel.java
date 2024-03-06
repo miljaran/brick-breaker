@@ -7,7 +7,7 @@ import java.awt.event.*;
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private final Paddle paddle;
     private final Ball ball;
-    private Brick[][] bricks;
+    private Brick[] bricks;
 
     public GamePanel() {
         setPreferredSize(new Dimension(BrickBreakerGame.WIDTH, BrickBreakerGame.HEIGHT));
@@ -29,18 +29,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         int brickGap = 3;
         int numColumns = BrickBreakerGame.WIDTH / (Brick.WIDTH + brickGap);
         int numRows = 5;
+        int numTotal = numColumns * numRows;
         int padding = (BrickBreakerGame.WIDTH - numColumns * (Brick.WIDTH + brickGap) + brickGap) / 2;
 
-        bricks = new Brick[numRows][numColumns];
+        bricks = new Brick[numTotal];
         int brickX = padding;
         int brickY = 0;
-        for (int row = 0; row < numRows; row++) {
-            for (int col = 0; col < numColumns; col++) {
-                bricks[row][col] = new Brick(brickX, brickY);
+        for (int num = 0; num < numTotal; num++) {
+            bricks[num] = new Brick(brickX, brickY);
+            if ((num + 1) % numColumns == 0) {
+                brickY += (brickHeight + brickGap);
+                brickX = padding;
+            } else {
                 brickX += (brickWidth + brickGap);
             }
-            brickY += (brickHeight + brickGap);
-            brickX = padding;
         }
     }
 
@@ -52,17 +54,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }
     }
 
-    // TODO: handle situations when the ball touches two bricks at the same time
     private void handleBrickCollisions() {
+        boolean collision = false;
         Rectangle ballRect = ball.getBounds();
         for (int i = 0; i < bricks.length; i++) {
-            for (int j = 0; j < bricks[i].length; j++) {
-                Brick brick = bricks[i][j];
-                if (brick != null) {
-                    Rectangle brickRect = brick.getBounds();
-                    if (ballRect.intersects(brickRect)) {
+            Brick brick = bricks[i];
+            if (brick != null) {
+                Rectangle brickRect = brick.getBounds();
+                if (ballRect.intersects(brickRect)) {
+                    bricks[i] = null;
+                    if (!collision) {
                         ball.reverseDirection();
-                        bricks[i][j] = null;
+                        collision = true;
                     }
                 }
             }
@@ -74,11 +77,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         super.paintComponent(g);
         paddle.draw(g);
         ball.draw(g);
-        for (Brick[] row : bricks) {
-            for (Brick brick : row) {
-                if (brick != null) {
-                    brick.draw(g);
-                }
+        for (Brick brick : bricks) {
+            if (brick != null) {
+                brick.draw(g);
             }
         }
     }
