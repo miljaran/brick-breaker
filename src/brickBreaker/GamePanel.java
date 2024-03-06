@@ -83,14 +83,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }
     }
 
-    // TODO: end the game when there are no tiles left or the ball is below the paddle
+    // TODO: end the game when there are no tiles left and improve the losing event
     @Override
     public void actionPerformed(ActionEvent e) {
         paddle.move();
-        ball.move();
-        handlePaddleCollisions();
-        handleBrickCollisions();
-        repaint();
+        if (ball.move()) {
+            handlePaddleCollisions();
+            handleBrickCollisions();
+            repaint();
+        } else {
+            System.out.println("You lost.");
+            System.exit(0);
+        }
     }
 
     @Override

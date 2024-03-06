@@ -16,17 +16,16 @@ public class Ball {
         this.ySpeed = -2;
     }
 
-    // TODO: react if the ball is below the paddle
-    public void move() {
+    public boolean move() {
         x += xSpeed;
         y += ySpeed;
 
-        if (x <= 0 || x >= BrickBreakerGame.WIDTH - SIZE) {
-            xSpeed = -xSpeed;
+        if (y <= BrickBreakerGame.HEIGHT) {
+            if (x <= 0 || x >= BrickBreakerGame.WIDTH - SIZE) xSpeed = -xSpeed;
+            if (y == 0) ySpeed = -ySpeed;
+            return true;
         }
-        if (y <= 0 || y >= BrickBreakerGame.HEIGHT - SIZE) {
-            ySpeed = -ySpeed;
-        }
+        return false;
     }
 
     public void draw(Graphics g) {
@@ -38,7 +37,6 @@ public class Ball {
         return new Rectangle(x, y, SIZE, SIZE);
     }
 
-    // TODO: improve the logic
     public void reverseDirection() {
         xSpeed = -xSpeed;
         ySpeed = -ySpeed;
