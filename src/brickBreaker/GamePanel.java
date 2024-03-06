@@ -59,7 +59,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }
     }
 
-    private void handleBrickCollisions() {
+    private int handleBrickCollisions() {
+        int bricksLeft = 0;
         boolean collision = false;
         Rectangle ballRect = ball.getBounds();
         for (int i = 0; i < bricks.length; i++) {
@@ -72,13 +73,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                         ball.reverseDirection();
                         collision = true;
                     }
+                } else {
+                    bricksLeft += 1;
                 }
             }
         }
+        System.out.println(bricksLeft);
+        return bricksLeft;
     }
 
-    private void handleLosing() {
-        int option = JOptionPane.showConfirmDialog(null, "Do you want to start a new game?", "You lost.", JOptionPane.YES_NO_OPTION);
+    private void handleGameEnd(String str) {
+        int option = JOptionPane.showConfirmDialog(null, "Do you want to start a new game?", str, JOptionPane.YES_NO_OPTION);
 
         if (option == 0) initializeGame();
         if (option == 1) System.exit(0);
@@ -96,16 +101,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }
     }
 
-    // TODO: end the game when there are no tiles left
     @Override
     public void actionPerformed(ActionEvent e) {
         paddle.move();
         if (ball.move()) {
             handlePaddleCollisions();
-            handleBrickCollisions();
+            if (handleBrickCollisions() == 0) {
+                repaint();
+                handleGameEnd("You won.");
+            }
             repaint();
         } else {
-            handleLosing();
+            handleGameEnd("You lost.");
         }
     }
 
