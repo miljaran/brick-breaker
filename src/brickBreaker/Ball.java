@@ -30,7 +30,7 @@ public class Ball {
 
     public void draw(Graphics g) {
         g.setColor(Color.RED);
-        g.fillRect(x, y, SIZE, SIZE); // TODO: change to fillOval
+        g.fillOval(x, y, SIZE, SIZE);
     }
 
     public Rectangle getBounds() {

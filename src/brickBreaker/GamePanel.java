@@ -5,8 +5,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
-    private final Paddle paddle;
-    private final Ball ball;
+    private Paddle paddle;
+    private Ball ball;
     private Brick[] bricks;
 
     public GamePanel() {
@@ -15,12 +15,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
         addKeyListener(this);
 
-        paddle = new Paddle((BrickBreakerGame.WIDTH - Paddle.WIDTH) / 2, BrickBreakerGame.HEIGHT - 2 * Paddle.HEIGHT);
-        ball = new Ball(BrickBreakerGame.WIDTH / 2, BrickBreakerGame.HEIGHT / 2);
-        initializeBricks();
+        initializeGame();
 
         Timer timer = new Timer(10, this);
         timer.start();
+    }
+
+    private void initializeGame() {
+        paddle = new Paddle((BrickBreakerGame.WIDTH - Paddle.WIDTH) / 2, BrickBreakerGame.HEIGHT - 2 * Paddle.HEIGHT);
+        ball = new Ball(BrickBreakerGame.WIDTH / 2, BrickBreakerGame.HEIGHT / 2);
+        initializeBricks();
     }
 
     private void initializeBricks() {
@@ -72,6 +76,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }
     }
 
+    private void handleLosing() {
+        int option = JOptionPane.showConfirmDialog(null, "Do you want to start a new game?", "You lost.", JOptionPane.YES_NO_OPTION);
+
+        if (option == 0) initializeGame();
+        if (option == 1) System.exit(0);
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -84,7 +95,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }
     }
 
-    // TODO: end the game when there are no tiles left and improve the losing event
+    // TODO: end the game when there are no tiles left
     @Override
     public void actionPerformed(ActionEvent e) {
         paddle.move();
@@ -93,8 +104,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             handleBrickCollisions();
             repaint();
         } else {
-            System.out.println("You lost.");
-            System.exit(0);
+            handleLosing();
         }
     }
 
