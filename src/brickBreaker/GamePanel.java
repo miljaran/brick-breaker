@@ -48,10 +48,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         Rectangle ballRect = ball.getBounds();
         Rectangle paddleRect = paddle.getBounds();
         if (ballRect.intersects(paddleRect)) {
-            ball.reverseDirection();
+            ball.changeDirection();
         }
     }
 
+    // TODO: handle situations when the ball touches two bricks at the same time
     private void handleBrickCollisions() {
         Rectangle ballRect = ball.getBounds();
         for (int i = 0; i < bricks.length; i++) {

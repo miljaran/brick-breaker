@@ -18,12 +18,13 @@ public class Paddle {
         this.y = y;
     }
 
-    // TODO: add limits to the sides
     public void move() {
         if (leftPressed) {
             x -= SPEED;
+            if (x < 0) x = 0;
         } else if (rightPressed) {
             x += SPEED;
+            if (x > BrickBreakerGame.WIDTH - WIDTH) x = BrickBreakerGame.WIDTH - WIDTH;
         }
     }
 

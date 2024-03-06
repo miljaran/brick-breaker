@@ -1,6 +1,7 @@
 package brickBreaker;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Ball {
     public static final int SIZE = 20;
@@ -40,6 +41,12 @@ public class Ball {
     // TODO: improve the logic
     public void reverseDirection() {
         xSpeed = -xSpeed;
+        ySpeed = -ySpeed;
+    }
+
+    public void changeDirection() {
+        Random random = new Random();
+        xSpeed = random.nextInt(7) - 3;
         ySpeed = -ySpeed;
     }
 }
