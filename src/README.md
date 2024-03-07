@@ -1,0 +1,2 @@
+## Description
+A game where the aim is to break all the bricks by hitting them with a ball. The player controls a paddle by moving it left and right with the arrow keys. The ball bounces when hitting the paddle, bricks or walls exepct for the bottom wall. Once the ball hits the bottom wall, that is, misses the paddle, the game is over.
